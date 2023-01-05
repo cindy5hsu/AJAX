@@ -41,7 +41,11 @@ namespace AJAX.Controllers
         {
             return View();
         }
-        public IActionResult Privacy()
+		public IActionResult PM25()
+		{
+			return View();
+		}
+		public IActionResult Privacy()
         {
             return View();
         }
