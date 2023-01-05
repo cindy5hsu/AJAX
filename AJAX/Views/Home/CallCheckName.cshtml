@@ -1,0 +1,37 @@
+﻿<label>檢查名稱</label>
+<input type="text" id="CompanyName" onkeyup="keyup()" />
+<span id="result"></span>
+<img id="Progress" src="~/image/icons8-heart.gif" style="display:none" asp-append-version="true" />
+
+@section Scripts 
+{
+	<script>
+		function keyup(){
+			var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                var p = `CompanyName=${document.getElementById("CompanyName").value}` ;
+                xmlHttp.open("POST", "https://localhost:7153/Ajax/Greet?" , true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        if (xmlHttp.status == 200) {
+                                    if(xmlHttp.responseText=="true"){
+                                        document.getElementById("result").innerText ="公司名字已登記";
+                            }
+                          else{
+                            document.getElementById("result").innerText = "未登記";
+                          }
+                            document.getElementById("Progress").style.display = "none";
+
+                        }
+                    }
+                };
+                xmlHttp.setRequestHeader("Context-type", "application/x-www-form-urlencoded");
+                document.getElementById("Progress").style.display = "inline";
+                xmlHttp.send(p);
+            }
+            else {
+                alert("瀏覽器不支援XMLHttpRequest")
+            }
+		}
+	</script>
+}

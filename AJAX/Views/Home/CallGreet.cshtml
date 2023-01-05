@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<button class="btn btn-primary" onclick="getCallGreetSync()">CallGreet(同步)</button>
+<button class="btn btn-primary" onclick="getCallGreetAsync()">CallGreet(非同步Get)</button>
+<button class="btn btn-primary" onclick="postCallGreetAsync()">CallGreet(非同步post)</button>
+<img id="Progress" src="~/image/icons8-heart.gif" style="display:none" asp-append-version="true" />
+<div id="MyDiv"></div>
+@section Scripts
+	{
+	<script>
+        function getCallGreetSync() {
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                var p = encodeURI("Name=alln");
+                xmlHttp.open("GET", "https://localhost:7153/Ajax/Greet?" + p, false);
+                document.getElementById("Progress").style.display = "inline";
+                xmlHttp.send();
+                document.getElementById("MyDiv").innerText = decodeURI(xmlHttp.responseText);
+                document.getElementById("Progress").style.display = "none";
+            }
+            else {
+                alert("瀏覽器不支援XMLHttpRequest")
+            }
+        }
+        function getCallGreetAsync() {
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                var p = encodeURI("Name=alln");
+                xmlHttp.open("GET", "https://localhost:7153/Ajax/Greet?" + p, true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        if (xmlHttp.status == 200) {
+                            document.getElementById("MyDiv").innerText = decodeURI(xmlHttp.responseText);
+                            document.getElementById("Progress").style.display = "none";
+                        }
+                    }
+                };
+                document.getElementById("Progress").style.display = "inline";
+                xmlHttp.send();
+            }
+            else {
+                alert("瀏覽器不支援XMLHttpRequest")
+            }
+        }
+        function postCallGreetAsync() {
+            var xmlHttp = new XMLHttpRequest();
+            if (xmlHttp != null) {
+                xmlHttp.open("GET", "https://localhost:7153/Ajax/Greet?" , true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        if (xmlHttp.readyState == 200) {
+                            document.getElementById("MyDiv").innerText = decodeURI(xmlHttp.responseText);
+                            document.getElementById("progress").style.display = "none";
+
+                        }
+                    }
+                };
+                xmlHttp.setRequestHeader("Context-type", "application/x-www-form-urlencoded");
+                document.getElementById("Progress").style.display = "inline";
+                xmlHttp.send("Name=許小明");
+            }
+            else {
+                alert("瀏覽器不支援XMLHttpRequest")
+            }
+        }
+
+	</script>
+}

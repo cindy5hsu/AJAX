@@ -1,0 +1,33 @@
+﻿<label>檢查名稱</label>
+<input type="text" id="CompanyName" onkeyup="keyup()" />
+<span id="result"></span>
+<img id="Progress" src="~/image/icons8-heart.gif" style="display:none" asp-append-version="true" />
+
+@section Scripts 
+{
+	<script>
+		function keyup(){
+          $("#Progress").show();
+		  $.ajax({
+				type: "POST",
+			data:{
+				CompanyName:$ ("#CompanyName").val()
+			},
+				url: "https://localhost:7153/Ajax/Greet",
+				//timeout:5000
+		  }).done(function(data){
+			  if(data=="true"){
+              $("#result").text("已經登記！");
+			  }
+			 else{
+					$("#result").text("未登記！");
+			 }
+			 $("Progress").hide();
+		  }).fail(function(err){
+		  alert(err.statusText);
+		  });
+		}
+	</script>
+
+}
+	

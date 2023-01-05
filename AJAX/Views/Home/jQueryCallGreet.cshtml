@@ -1,0 +1,64 @@
+﻿<button class="btn btn-success" onclick="jQueryGetCallSync()">jQueryCallGreet(同步)</button>
+<button class="btn btn-success" onclick="jQuerygetCallGreetAsync()">jQueryCallGreet(非同步Get)</button>
+<button class="btn btn-success" onclick="jQueryCpostCallGreetAsync()">jQueryCallGreet(非同步post)</button>
+<img id="Progress" src="~/image/icons8-heart.gif" style="display:none" asp-append-version="true" />
+<div id="MyDiv"></div>
+@section Scripts
+{
+<script>
+		function jQueryGetCallSync() {
+			var p = encodeURI("Name=陳小明");
+			$("#Progress").show();
+          $.ajax({
+		    type:"GET",
+		
+				url: "https://localhost:7153/Ajax/Greet?" + p
+			
+				//timeout:5000
+		  }).done(function(data){
+				$("#MyDiv").text(data);
+			  $("#Progress").hide();
+				
+		  }).fail(function(err){
+		  alert(err.statusText);
+		  });		
+		}
+		function jQuerygetCallGreetAsync() 
+		{
+			var p = encodeURI("Name=陳小明");
+			$("#Progress").show();
+			$.ajax({
+				type: "GET",
+
+				url: "https://localhost:7153/Ajax/Greet?" + p,
+
+				//timeout:5000
+			}).done(function (data) {
+				$("#MyDiv").text(data);
+				$("#Progress").hide();
+
+			}).fail(function (err) {
+				alert(err.statusText);
+			});
+		}
+		function jQueryCpostCallGreetAsync() 
+		{
+			$("#Progress").show();
+          $.ajax({
+				type: "POST",
+		    data:{
+				Name:"Justian bieber"
+			}
+				url: "https://localhost:7153/Ajax/Greet",
+			
+				//timeout:5000
+		  }).done(function(data){
+				$("#MyDiv").text(data);
+			  $("#Progress").hide();
+				
+		  }).fail(function(err){
+		  alert(err.statusText);
+		  });		
+		}
+</script>
+}
